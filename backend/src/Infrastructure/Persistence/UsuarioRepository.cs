@@ -48,4 +48,23 @@ public class UsuarioRepository(DbConnectionFactory factory) : IUsuarioRepository
             "UPDATE usuarios SET is_premium = @IsPremium, stripe_customer_id = @StripeCustomerId WHERE id = @Id",
             new { Id = id, IsPremium = isPremium ? 1 : 0, StripeCustomerId = stripeCustomerId });
     }
+
+    public async Task<(int TotalUsuarios, int TotalFree, int TotalPro, decimal MrrEstimado)> GetMetricasAssinaturasAsync()
+    {
+        using var conn = factory.CreateConnection();
+        var sql = @"
+            SELECT 
+                COUNT(*) AS TotalUsuarios,
+                SUM(CASE WHEN is_premium = 0 THEN 1 ELSE 0 END) AS TotalFree,
+                SUM(CASE WHEN is_premium = 1 THEN 1 ELSE 0 END) AS TotalPro
+            FROM usuarios";
+
+        var result = await conn.QuerySingleOrDefaultAsync<dynamic>(sql);
+        int total = result != null ? (int)result.TotalUsuarios : 0;
+        int free = result != null ? Convert.ToInt32(result.TotalFree ?? 0) : 0;
+        int pro = result != null ? Convert.ToInt32(result.TotalPro ?? 0) : 0;
+        decimal mrr = pro * 14.90m;
+
+        return (total, free, pro, mrr);
+    }
 }

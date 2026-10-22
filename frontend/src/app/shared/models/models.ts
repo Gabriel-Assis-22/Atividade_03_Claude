@@ -110,3 +110,12 @@ export interface Reserva {
   valorRateio?: number;
 }
 
+export interface SaasMetricas {
+  totalUsuarios: number;
+  usuariosFree: number;
+  usuariosPro: number;
+  assinaturasAtivas: number;
+  valorMensalidade: number;
+  mrrEstimado: number;
+  moeda: string;
+}

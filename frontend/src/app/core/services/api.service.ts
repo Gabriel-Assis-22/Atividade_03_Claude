@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Movie, MovieDetail, Favorite, Comment, AuditLog, UserProfile, UploadPhotoResponse } from '../../shared/models/models';
+import { Movie, MovieDetail, Favorite, Comment, AuditLog, UserProfile, UploadPhotoResponse, Carona, Reserva, Veiculo, SaasMetricas } from '../../shared/models/models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -49,13 +49,17 @@ export class ApiService {
     return this.http.post<UploadPhotoResponse>(`${this.base}/profile/photo`, formData);
   }
 
-  // Payments / Stripe
+  // Payments / Stripe Subscriptions & MRR
   createCheckoutSession() {
     return this.http.post<{ checkoutUrl: string }>(`${this.base}/payments/checkout`, {});
   }
 
   createCustomerPortal() {
     return this.http.post<{ portalUrl: string }>(`${this.base}/payments/portal`, {});
+  }
+
+  getSaasMetricas() {
+    return this.http.get<SaasMetricas>(`${this.base}/payments/metricas`);
   }
 
   // ── UniRide Caronas & Mobilidade ───────────────────────────────────────────
@@ -68,15 +72,15 @@ export class ApiService {
       if (params.data) q.append('data', params.data);
       query = q.toString() ? `?${q.toString()}` : '';
     }
-    return this.http.get<import('../../shared/models/models').Carona[]>(`${this.base}/caronas${query}`);
+    return this.http.get<Carona[]>(`${this.base}/caronas${query}`);
   }
 
   getCarona(id: number) {
-    return this.http.get<import('../../shared/models/models').Carona>(`${this.base}/caronas/${id}`);
+    return this.http.get<Carona>(`${this.base}/caronas/${id}`);
   }
 
   getMyCaronas() {
-    return this.http.get<import('../../shared/models/models').Carona[]>(`${this.base}/caronas/minhas`);
+    return this.http.get<Carona[]>(`${this.base}/caronas/minhas`);
   }
 
   createCarona(body: { veiculoId: number; cidadeOrigem: string; cidadeDestino: string; pontoEncontro: string; dataHoraSaida: string; vagasTotais: number; valorRateio: number }) {
@@ -92,7 +96,7 @@ export class ApiService {
   }
 
   getMyReservas() {
-    return this.http.get<import('../../shared/models/models').Reserva[]>(`${this.base}/reservas/minhas`);
+    return this.http.get<Reserva[]>(`${this.base}/reservas/minhas`);
   }
 
   cancelReserva(reservaId: number) {
@@ -100,11 +104,10 @@ export class ApiService {
   }
 
   getMyVeiculos() {
-    return this.http.get<import('../../shared/models/models').Veiculo[]>(`${this.base}/veiculos/meus`);
+    return this.http.get<Veiculo[]>(`${this.base}/veiculos/meus`);
   }
 
   createVeiculo(body: { modelo: string; placa: string; cor: string; ano: number; fotoUrl?: string }) {
     return this.http.post<{ id: number; mensagem: string }>(`${this.base}/veiculos`, body);
   }
 }
-

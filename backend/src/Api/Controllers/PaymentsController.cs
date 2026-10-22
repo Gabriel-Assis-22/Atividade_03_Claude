@@ -1,4 +1,5 @@
 using Application.UseCases.Payments;
+using Domain.Repositories;
 using Infrastructure.ExternalServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ public class PaymentsController(
     CreateCheckoutSessionUseCase createCheckoutSession,
     CreateCustomerPortalUseCase createCustomerPortal,
     HandleStripeWebhookUseCase handleStripeWebhook,
+    IUsuarioRepository usuarioRepo,
     IAuditClient audit,
     ILogger<PaymentsController> logger) : ControllerBase
 {
@@ -29,6 +31,11 @@ public class PaymentsController(
             return null;
         }
     }
+
+    private string CurrentUserRole =>
+        User.FindFirst(ClaimTypes.Role)?.Value
+        ?? User.FindFirst("role")?.Value
+        ?? "usuario";
 
     private string? ClientIp =>
         Request.Headers["X-Forwarded-For"].FirstOrDefault()
@@ -84,7 +91,7 @@ public class PaymentsController(
             var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL")
                 ?? "https://gabriel-assis-isw055.lapps.studio";
 
-            var returnUrl = $"{frontendUrl.TrimEnd('/')}/feed";
+            var returnUrl = $"{frontendUrl.TrimEnd('/')}/painel";
             var portalUrl = await createCustomerPortal.ExecuteAsync(CurrentUserId.Value, returnUrl);
 
             await audit.LogAsync(
@@ -104,6 +111,29 @@ public class PaymentsController(
             logger.LogError(ex, "Erro ao gerar portal do cliente Stripe");
             return StatusCode(500, new { erro = "Erro ao acessar o portal de assinaturas." });
         }
+    }
+
+    [HttpGet("metricas")]
+    [Authorize]
+    public async Task<IActionResult> GetMetricasAdmin()
+    {
+        if (!string.Equals(CurrentUserRole, "admin", StringComparison.OrdinalIgnoreCase))
+        {
+            return StatusCode(403, new { erro = "Acesso negado. Apenas administradores podem consultar métricas de receita (MRR)." });
+        }
+
+        var (total, free, pro, mrr) = await usuarioRepo.GetMetricasAssinaturasAsync();
+
+        return Ok(new
+        {
+            totalUsuarios = total,
+            usuariosFree = free,
+            usuariosPro = pro,
+            assinaturasAtivas = pro,
+            valorMensalidade = 14.90m,
+            mrrEstimado = mrr,
+            moeda = "BRL"
+        });
     }
 
     [HttpPost("webhook")]
@@ -154,4 +184,3 @@ public class PaymentsController(
         }
     }
 }
-

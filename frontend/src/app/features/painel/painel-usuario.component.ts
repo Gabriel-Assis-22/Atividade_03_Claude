@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../core/services/api.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { Carona, Reserva, Veiculo } from '../../../shared/models/models';
+import { Carona, Reserva, Veiculo, SaasMetricas } from '../../../shared/models/models';
 
 @Component({
   selector: 'app-painel-usuario',
@@ -18,9 +18,12 @@ import { Carona, Reserva, Veiculo } from '../../../shared/models/models';
             Conectado como: <strong>{{ auth.getCurrentUser()?.nome }}</strong> (Papel: {{ auth.getCurrentRole() }})
           </p>
         </div>
-        <div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button (click)="assinarPro()" style="padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+            ⭐ Assinar UniRide Pro
+          </button>
           <button (click)="gerenciarAssinatura()" style="padding: 0.6rem 1.2rem; background: #4f46e5; color: white; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
-            💳 Gerenciar Assinatura Stripe
+            💳 Portal do Cliente Stripe
           </button>
         </div>
       </div>
@@ -31,6 +34,50 @@ import { Carona, Reserva, Veiculo } from '../../../shared/models/models';
       </div>
       <div *ngIf="msgErro()" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
         {{ msgErro() }}
+      </div>
+
+      <!-- SEÇÃO EXCLUSIVA DE ADMIN: MÉTRICAS SAAS E MRR -->
+      <div *ngIf="auth.isAdmin()" style="margin-bottom: 3rem; background: #16162a; border: 1px solid #3b82f6; border-radius: 12px; padding: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: #60a5fa; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+          📊 Métricas de Negócio & MRR (Stripe SaaS)
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1.25rem;">
+          Visão consolidada da receita mensal recorrente e status da base de assinantes do UniRide.
+        </p>
+
+        <div *ngIf="metricas()" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div style="background: #1e1e38; border-radius: 8px; padding: 1rem; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">MRR Estimado (Mensal)</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: #10b981; margin-top: 0.25rem;">
+              R$ {{ metricas()!.mrrEstimado.toFixed(2) }}
+            </div>
+            <div style="font-size: 0.75rem; color: #6ee7b7; margin-top: 0.25rem;">R$ {{ metricas()!.valorMensalidade.toFixed(2) }} / assinante Pro</div>
+          </div>
+
+          <div style="background: #1e1e38; border-radius: 8px; padding: 1rem; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Assinantes Pro Ativos</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: #60a5fa; margin-top: 0.25rem;">
+              {{ metricas()!.usuariosPro }}
+            </div>
+            <div style="font-size: 0.75rem; color: #93c5fd; margin-top: 0.25rem;">Reservas ilimitadas + selo condutor</div>
+          </div>
+
+          <div style="background: #1e1e38; border-radius: 8px; padding: 1rem; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Usuários Free</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: #f59e0b; margin-top: 0.25rem;">
+              {{ metricas()!.usuariosFree }}
+            </div>
+            <div style="font-size: 0.75rem; color: #fcd34d; margin-top: 0.25rem;">Limite: 2 reservas simultâneas</div>
+          </div>
+
+          <div style="background: #1e1e38; border-radius: 8px; padding: 1rem; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Total de Usuários</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: #e2e8f0; margin-top: 0.25rem;">
+              {{ metricas()!.totalUsuarios }}
+            </div>
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 0.25rem;">Base cadastrada na plataforma</div>
+          </div>
+        </div>
       </div>
 
       <!-- SEÇÃO DO MOTORISTA -->
@@ -65,9 +112,9 @@ import { Carona, Reserva, Veiculo } from '../../../shared/models/models';
           </button>
         </div>
 
-        <!-- Formulário de Publicar Carona -->
+        <!-- Formulário de Publicação de Carona -->
         <div style="background: #181824; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.08);">
-          <h3 style="margin-top: 0; font-size: 1.2rem;">Publicar Nova Rota de Carona</h3>
+          <h3 style="margin-top: 0; font-size: 1.2rem;">Publicar Nova Carona</h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
             <div>
               <label style="font-size: 0.85rem; color: #94a3b8;">Veículo</label>
@@ -167,6 +214,7 @@ export class PainelUsuarioComponent implements OnInit {
   veiculos = signal<Veiculo[]>([]);
   minhasCaronas = signal<Carona[]>([]);
   minhasReservas = signal<Reserva[]>([]);
+  metricas = signal<SaasMetricas | null>(null);
 
   msgSucesso = signal('');
   msgErro = signal('');
@@ -202,6 +250,28 @@ export class PainelUsuarioComponent implements OnInit {
       });
       this.api.getMyCaronas().subscribe(res => this.minhasCaronas.set(res));
     }
+
+    if (this.auth.isAdmin()) {
+      this.api.getSaasMetricas().subscribe({
+        next: (res) => this.metricas.set(res),
+        error: () => {}
+      });
+    }
+  }
+
+  assinarPro() {
+    this.msgSucesso.set('');
+    this.msgErro.set('');
+    this.api.createCheckoutSession().subscribe({
+      next: (res) => {
+        if (res.checkoutUrl) {
+          window.location.href = res.checkoutUrl;
+        }
+      },
+      error: (err) => {
+        this.msgErro.set(err.error?.erro ?? 'Erro ao iniciar checkout Stripe.');
+      }
+    });
   }
 
   salvarVeiculo() {
