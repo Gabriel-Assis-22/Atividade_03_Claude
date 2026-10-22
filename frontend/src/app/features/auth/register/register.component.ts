@@ -1,0 +1,78 @@
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+
+@Component({
+  selector: 'app-register',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  template: `
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-brand">
+            <span class="auth-icon">🚗</span>
+            <h1>Criar Conta no UniRide</h1>
+            <p>Mobilidade universitária rápida, econômica e segura</p>
+          </div>
+          <div *ngIf="erro()" class="alert alert-error">{{ erro() }}</div>
+          <form (ngSubmit)="onRegister()" class="auth-form">
+            <div class="form-group">
+              <label for="nome">Nome Completo</label>
+              <input id="nome" type="text" [(ngModel)]="nome" name="nome" placeholder="Lucas Silveira" required>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail Acadêmico / Pessoal</label>
+              <input id="email" type="email" [(ngModel)]="email" name="email" placeholder="lucas@fatec.sp.gov.br" required>
+            </div>
+            <div class="form-group">
+              <label for="role">Quero usar o UniRide como:</label>
+              <select id="role" [(ngModel)]="role" name="role" class="form-control" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: #1a1a24; color: #fff;">
+                <option value="passageiro">🎒 Passageiro (Buscar e reservar caronas)</option>
+                <option value="motorista">🚘 Condutor / Motorista (Publicar rotas e oferecer vagas)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="senha">Senha <small>(mínimo 6 caracteres)</small></label>
+              <input id="senha" type="password" [(ngModel)]="senha" name="senha" placeholder="••••••••" minlength="6" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full" [disabled]="loading()">
+              {{ loading() ? 'Cadastrando...' : 'Cadastrar no UniRide' }}
+            </button>
+          </form>
+          <p class="auth-switch">Já tem conta? <a routerLink="/auth/login">Fazer login</a></p>
+        </div>
+      </div>
+    </div>
+  `,
+})
+export class RegisterComponent {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
+  nome = '';
+  email = '';
+  senha = '';
+  role = 'passageiro';
+  erro = signal('');
+  loading = signal(false);
+
+  onRegister() {
+    this.erro.set('');
+    if (this.senha.length < 6) {
+      this.erro.set('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+    this.loading.set(true);
+    this.auth.register(this.nome, this.email, this.senha, this.role).subscribe({
+      next: () => this.router.navigate(['/auth/login']),
+      error: (err) => {
+        this.erro.set(err.error?.erro ?? 'Erro ao cadastrar.');
+        this.loading.set(false);
+      },
+    });
+  }
+}
+

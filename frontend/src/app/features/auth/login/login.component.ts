@@ -1,0 +1,64 @@
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  template: `
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-brand">
+            <span class="auth-icon">🚗</span>
+            <h1>UniRide — Caronas Universitárias</h1>
+            <p>Conectando motoristas e passageiros no campus</p>
+          </div>
+          <div *ngIf="erro()" class="alert alert-error">{{ erro() }}</div>
+          <form (ngSubmit)="onLogin()" class="auth-form">
+            <div class="form-group">
+              <label for="email">E-mail Acadêmico</label>
+              <input id="email" type="email" [(ngModel)]="email" name="email" placeholder="seu@fatec.sp.gov.br" required>
+            </div>
+            <div class="form-group">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <label for="senha">Senha</label>
+                <a routerLink="/auth/forgot-password" style="font-size:.8rem;color:var(--clr-accent)">Esqueceu a senha?</a>
+              </div>
+              <input id="senha" type="password" [(ngModel)]="senha" name="senha" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full" [disabled]="loading()">
+              {{ loading() ? 'Entrando...' : 'Entrar no UniRide' }}
+            </button>
+          </form>
+          <p class="auth-switch">Não tem conta? <a routerLink="/auth/register">Cadastre-se</a></p>
+        </div>
+      </div>
+    </div>
+  `,
+})
+export class LoginComponent {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
+  email = '';
+  senha = '';
+  erro = signal('');
+  loading = signal(false);
+
+  onLogin() {
+    this.erro.set('');
+    this.loading.set(true);
+    this.auth.login(this.email, this.senha).subscribe({
+      next: () => this.router.navigate(['/feed']),
+      error: (err) => {
+        this.erro.set(err.error?.erro ?? 'Erro ao fazer login.');
+        this.loading.set(false);
+      },
+    });
+  }
+}
+
