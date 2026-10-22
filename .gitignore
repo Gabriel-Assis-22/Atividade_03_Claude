@@ -1,0 +1,25 @@
+# ── Node.js (legado) ───────────────────────────
+node_modules/
+.env
+
+# ── .NET backend & auth-service ─────────────────
+backend/**/bin/
+backend/**/obj/
+backend/**/*.user
+auth-service/**/bin/
+auth-service/**/obj/
+auth-service/**/*.user
+
+# ── Angular frontend ────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# ── Docker ─────────────────────────────────────
+.dockerignore
+
+# ── IDE ────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
