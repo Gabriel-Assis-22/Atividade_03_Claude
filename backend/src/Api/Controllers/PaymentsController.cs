@@ -1,5 +1,6 @@
 using Application.UseCases.Payments;
 using Domain.Repositories;
+using Domain.Services;
 using Infrastructure.ExternalServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

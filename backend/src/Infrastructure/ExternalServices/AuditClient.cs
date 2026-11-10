@@ -1,13 +1,9 @@
 using System.Text;
 using System.Text.Json;
+using Domain.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.ExternalServices;
-
-public interface IAuditClient
-{
-    Task LogAsync(int? usuarioId, string acao, string? detalhes = null, string? ipOrigem = null);
-}
 
 public class AuditClient(HttpClient httpClient, ILogger<AuditClient> logger) : IAuditClient
 {

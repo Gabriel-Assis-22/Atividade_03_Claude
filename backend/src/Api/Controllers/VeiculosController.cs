@@ -61,7 +61,8 @@ public class VeiculosController(
 
     [HttpPost("upload-foto")]
     [Authorize(Roles = "motorista,admin")]
-    public async Task<IActionResult> UploadFoto([FromForm] IFormFile foto)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadFoto(IFormFile? foto)
     {
         if (!CurrentUserId.HasValue)
             return Unauthorized(new { erro = "Usuário não autenticado." });

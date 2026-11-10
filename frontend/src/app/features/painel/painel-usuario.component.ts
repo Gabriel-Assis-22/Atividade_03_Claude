@@ -1,9 +1,9 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../../../core/services/api.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { Carona, Reserva, Veiculo, SaasMetricas } from '../../../shared/models/models';
+import { ApiService } from '../../core/services/api.service';
+import { AuthService } from '../../core/services/auth.service';
+import { Carona, Reserva, Veiculo, SaasMetricas } from '../../shared/models/models';
 
 @Component({
   selector: 'app-painel-usuario',

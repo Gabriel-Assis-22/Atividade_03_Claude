@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Application.DTOs.Profile;
 using Application.UseCases.Profile;
+using Domain.Services;
 using Infrastructure.ExternalServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

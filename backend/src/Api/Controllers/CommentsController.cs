@@ -3,6 +3,7 @@ using Application.UseCases.Comments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Domain.Services;
 using Infrastructure.ExternalServices;
 
 namespace Api.Controllers;

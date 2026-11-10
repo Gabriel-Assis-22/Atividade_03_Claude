@@ -1,6 +1,6 @@
 using Domain.Entities;
 using Domain.Repositories;
-using Infrastructure.ExternalServices;
+using Domain.Services;
 
 namespace Application.UseCases.Reservas;
 

@@ -123,13 +123,13 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title = "Catálogo Tom Hanks API",
+        Title = "UniRide SaaS API",
         Version = "v1",
-        Description = "API REST de Microsserviços para o Catálogo Tom Hanks. Inclui Catálogo TMDB, Favoritos (com enforcement de limite no plano gratuito e ilimitado no Premium), Comentários, Perfil de Usuário, Upload de Avatar no Garage S3, Pagamentos Stripe e Trilha de Auditoria.",
+        Description = "API REST de Microsserviços do UniRide SaaS (Carona Universitária Compartilhada). Inclui Caronas, Veículos, Reservas com enforcement de cota por plano, Assinaturas Recorrentes Stripe, Customer Portal, Métricas MRR, Upload Garage S3 e Trilha de Auditoria em Redis Streams.",
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
-            Name = "Gabriel Assis",
-            Url = new Uri("https://github.com/Gabriel-Assis-22/Atividade_02_Claude")
+            Name = "Gabriel Roberto de Assis",
+            Url = new Uri("https://github.com/Gabriel-Assis-22/Atividade_03_Claude")
         }
     });
 
@@ -178,7 +178,7 @@ app.UseSwagger(c =>
 });
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catálogo Tom Hanks API v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniRide SaaS API v1");
     c.RoutePrefix = "swagger";
 });
 
