@@ -1,9 +1,10 @@
 # UniRide — Carona Universitária Compartilhada
 
-> ISW055 · Arquitetura de Microsserviços e Aplicações em Cloud · Professor [@siriani](https://github.com/siriani)  
-> Aluno: Gabriel Assis  
-> Repositório do Produto: [github.com/Gabriel-Assis-22/UniRide_SaaS](https://github.com/Gabriel-Assis-22/UniRide_SaaS)  
-> Projeto Original (P1): [github.com/Gabriel-Assis-22/Atividade_02_Claude](https://github.com/Gabriel-Assis-22/Atividade_02_Claude)
+> ISW055 · Introdução à Computação em Nuvem · Professor [@siriani](https://github.com/siriani)  
+> Aluno: Gabriel Roberto de Assis  
+> Repositório do Produto: [github.com/Gabriel-Assis-22/Atividade_03_Claude](https://github.com/Gabriel-Assis-22/Atividade_03_Claude)  
+> Projeto Original (P1): [github.com/Gabriel-Assis-22/Atividade_02_Claude](https://github.com/Gabriel-Assis-22/Atividade_02_Claude)  
+> 📄 **Relatório Consolidado P2:** [docs/P2_ISW055_Gabriel_Assis.pdf](docs/P2_ISW055_Gabriel_Assis.pdf)
 
 ---
 

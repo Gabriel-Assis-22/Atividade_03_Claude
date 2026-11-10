@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 500" font-family="Consolas, Courier New, monospace">
+  <defs>
+    <marker id="fk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="500" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="24" y="28" font-family="Segoe UI, Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#0f172a">Modelo Entidade-Relacionamento (DER) — Domínio UniRide SaaS no MariaDB</text>
+
+  <!-- TABLE: usuarios (Center-Left) -->
+  <rect x="30" y="55" width="275" height="255" rx="6" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+  <rect x="30" y="55" width="275" height="28" rx="6" fill="#0f172a"/>
+  <text x="167" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">usuarios</text>
+  <g font-size="10.2" fill="#1e293b">
+    <text x="42" y="102" font-weight="bold" fill="#b96f1f">PK id                INT AUTO_INC</text>
+    <text x="42" y="121">   nome              VARCHAR(120)</text>
+    <text x="42" y="140">   email             VARCHAR(180) UQ</text>
+    <text x="42" y="159">   senha_hash        VARCHAR(255)</text>
+    <text x="42" y="178" font-weight="bold" fill="#1d4ed8">   role              VARCHAR(30)</text>
+    <text x="42" y="197">   foto_chave        VARCHAR(255)</text>
+    <text x="42" y="216">   foto_url          VARCHAR(500)</text>
+    <text x="42" y="235">   bio               TEXT</text>
+    <text x="42" y="254" font-weight="bold" fill="#059669">   is_premium        TINYINT(1) [Plano]</text>
+    <text x="42" y="273" font-weight="bold" fill="#059669">   stripe_customer_id VARCHAR(100)</text>
+    <text x="42" y="292">   criado_em         DATETIME</text>
+  </g>
+
+  <!-- TABLE: reset_tokens (Bottom-Left) -->
+  <rect x="30" y="345" width="275" height="130" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.3"/>
+  <rect x="30" y="345" width="275" height="26" rx="6" fill="#475569"/>
+  <text x="167" y="363" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">reset_tokens (auth-service)</text>
+  <g font-size="10" fill="#1e293b">
+    <text x="42" y="389" font-weight="bold" fill="#b96f1f">PK id          INT AUTO_INC</text>
+    <text x="42" y="407" fill="#2563eb">FK usuario_id  INT → usuarios.id</text>
+    <text x="42" y="425">   token       VARCHAR(64) UQ</text>
+    <text x="42" y="443">   expira_em   DATETIME (30 min)</text>
+    <text x="42" y="461">   usado       TINYINT(1)</text>
+  </g>
+
+  <!-- TABLE: veiculos (Top-Middle) -->
+  <rect x="360" y="55" width="265" height="165" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <rect x="360" y="55" width="265" height="28" rx="6" fill="#1d4ed8"/>
+  <text x="492" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">veiculos</text>
+  <g font-size="10.2" fill="#1e293b">
+    <text x="372" y="102" font-weight="bold" fill="#b96f1f">PK id          INT AUTO_INC</text>
+    <text x="372" y="121" fill="#2563eb">FK usuario_id  INT → usuarios.id</text>
+    <text x="372" y="140">   modelo      VARCHAR(100)</text>
+    <text x="372" y="159">   placa       VARCHAR(20)</text>
+    <text x="372" y="178">   cor / ano   VARCHAR(50) / INT</text>
+    <text x="372" y="197">   foto_url    VARCHAR(500) [S3]</text>
+    <text x="372" y="213">   created_at  DATETIME</text>
+  </g>
+
+  <!-- TABLE: caronas (Bottom-Middle) -->
+  <rect x="360" y="255" width="265" height="220" rx="6" fill="#ffffff" stroke="#b96f1f" stroke-width="1.6"/>
+  <rect x="360" y="255" width="265" height="28" rx="6" fill="#b96f1f"/>
+  <text x="492" y="274" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">caronas</text>
+  <g font-size="10" fill="#1e293b">
+    <text x="372" y="301" font-weight="bold" fill="#b96f1f">PK id                INT AUTO_INC</text>
+    <text x="372" y="319" fill="#2563eb">FK motorista_id      INT → usuarios.id</text>
+    <text x="372" y="337" fill="#2563eb">FK veiculo_id        INT → veiculos.id</text>
+    <text x="372" y="355">   cidade_origem     VARCHAR(100)</text>
+    <text x="372" y="373">   cidade_destino    VARCHAR(100)</text>
+    <text x="372" y="391">   ponto_encontro    VARCHAR(255)</text>
+    <text x="372" y="409">   data_hora_saida   DATETIME</text>
+    <text x="372" y="427">   vagas_totais/disp INT / INT</text>
+    <text x="372" y="445">   valor_rateio      DECIMAL(10,2)</text>
+    <text x="372" y="463">   status            VARCHAR(20)</text>
+  </g>
+
+  <!-- TABLE: reservas (Top-Right) -->
+  <rect x="675" y="55" width="240" height="155" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+  <rect x="675" y="55" width="240" height="28" rx="6" fill="#059669"/>
+  <text x="795" y="74" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">reservas</text>
+  <g font-size="10" fill="#1e293b">
+    <text x="687" y="102" font-weight="bold" fill="#b96f1f">PK id            INT AUTO_INC</text>
+    <text x="687" y="121" fill="#2563eb">FK carona_id     INT → caronas.id</text>
+    <text x="687" y="140" fill="#2563eb">FK passageiro_id INT → usuarios.id</text>
+    <text x="687" y="159">   status        VARCHAR(20)</text>
+    <text x="687" y="178">   created_at    DATETIME</text>
+    <text x="687" y="198" font-size="9" fill="#047857">UQ (carona_id, passageiro_id)</text>
+  </g>
+
+  <!-- TABLE: avaliacoes (Bottom-Right) -->
+  <rect x="675" y="255" width="240" height="175" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="1.4"/>
+  <rect x="675" y="255" width="240" height="28" rx="6" fill="#6d28d9"/>
+  <text x="795" y="274" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">avaliacoes</text>
+  <g font-size="10" fill="#1e293b">
+    <text x="687" y="302" font-weight="bold" fill="#b96f1f">PK id           INT AUTO_INC</text>
+    <text x="687" y="321" fill="#2563eb">FK carona_id    INT → caronas.id</text>
+    <text x="687" y="340" fill="#2563eb">FK avaliador_id INT → usuarios.id</text>
+    <text x="687" y="359" fill="#2563eb">FK avaliado_id  INT → usuarios.id</text>
+    <text x="687" y="378">   nota         INT</text>
+    <text x="687" y="397">   comentario   VARCHAR(500)</text>
+    <text x="687" y="416">   created_at   DATETIME</text>
+  </g>
+
+  <!-- FK Connectors -->
+  <!-- usuarios -> veiculos -->
+  <line x1="305" y1="118" x2="358" y2="118" stroke="#2563eb" stroke-width="1.5" marker-end="url(#fk)"/>
+  <!-- usuarios -> caronas -->
+  <path d="M 305 245 L 332 245 L 332 315 L 358 315" stroke="#2563eb" stroke-width="1.5" fill="none" marker-end="url(#fk)"/>
+  <!-- veiculos -> caronas -->
+  <line x1="492" y1="220" x2="492" y2="253" stroke="#2563eb" stroke-width="1.5" marker-end="url(#fk)"/>
+  <!-- caronas -> reservas -->
+  <path d="M 625 300 L 650 300 L 650 118 L 673 118" stroke="#2563eb" stroke-width="1.5" fill="none" marker-end="url(#fk)"/>
+  <!-- caronas -> avaliacoes -->
+  <line x1="625" y1="320" x2="673" y2="320" stroke="#2563eb" stroke-width="1.5" marker-end="url(#fk)"/>
+  <!-- usuarios -> reset_tokens -->
+  <line x1="167" y1="310" x2="167" y2="343" stroke="#64748b" stroke-width="1.4" marker-end="url(#fk)"/>
+</svg>
+

@@ -85,7 +85,7 @@ O ecossistema é composto por containers independentes conectados pela rede priv
 | :---: | :--- | :--- |
 | **IaaS** | Máquina virtual Linux no cluster da disciplina (vCPU, RAM, disco virtual e roteamento `lapps.studio`). | Infraestrutura Fatec / Prof. [@siriani](https://github.com/siriani) |
 | **PaaS** | Docker Engine + Portainer, MariaDB compartilhado e containers de plataforma (`redis:7-alpine`, `garage:v1.0.1`, `.NET 10`, `nginx:alpine`). | Plataforma base pela Fatec/Portainer; `Dockerfile`s, `docker-compose.yml` e migrações pelo aluno |
-| **SaaS** | **UniRide** (produto final entregue ao estudante via navegador) e SaaS externos consumidos via API (**Stripe**, **Mailtrap**, **GitHub**, **TMDB**). | UniRide pelo aluno; serviços externos pelos respectivos provedores |
+| **SaaS** | **UniRide** (produto final entregue ao estudante via navegador) e SaaS externos consumidos via API (**Stripe**, **Mailtrap**, **GitHub**). | UniRide pelo aluno; serviços externos pelos respectivos provedores |
 
 ---
 

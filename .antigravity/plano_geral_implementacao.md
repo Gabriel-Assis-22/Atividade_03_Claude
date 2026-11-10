@@ -244,3 +244,87 @@ Criar endpoint e tela administrativa exibindo:
   - [ ] Enforcement de limite de reservas na API (HTTP 403 Forbidden).
   - [ ] Painel com MRR e contagem de assinantes ativos.
 ```
+
+---
+
+# 🚀 PARTE 4 — Planejamento de Implementação da Avaliação P2: Relatório Bimestral Consolidado
+
+> **Referência Oficial:** `https://lapps.studio/disciplinas/introducao-computacao-nuvem/atividades/p2-relatorio-bimestral/`  
+> **Arquivo Base:** `.antigravity/P2_RelatorioBimestral.md`  
+> **Prazo:** Sexta-feira, 13/11/2026 (ou antecipado)  
+> **Formato de Saída:** Documento Typst compilado em PDF único: `docs/P2_ISW055_Gabriel_Assis.pdf`  
+
+---
+
+### 4.1. Diagnóstico do Estado Atual no Repositório
+
+| Item Exigido | Status no Projeto Atual | Onde se Encontra no Código / Repositório |
+|---|---|---|
+| **Atividade 07 (Stripe Checkout)** | Concluída com prova | Commit `59f4155` (19/10/2026 20:37) |
+| **Atividade 08 (Engenharia Reversa SaaS/PaaS/IaaS)** | Concluída com prova | Commits `22af01e` e `89f32ef` (19/10/2026 20:54/20:59) |
+| **Atividade 09 (Fork & Plano UniRide)** | Concluída com prova | Commit `fb3abaa` (`Atividade_03_Claude`) / `fb68e76` (`Atividade_02_Claude`) |
+| **Atividade 10 (Seu Negócio no Ar - UniRide)** | Concluída com prova | Commit `a7b62c4` (`Atividade_03_Claude`) / `fd1f858` (`Atividade_02_Claude`) |
+| **Atividade 11 (SaaS Completo Stripe & MRR)** | Concluída com prova | Commit `b939889` (22/10/2026 13:51 em `Atividade_03_Claude`) |
+| **Extras (Swagger / OpenAPI)** | Concluída com prova | Commit `8cf880e` (19/10/2026 22:43) |
+
+---
+
+### 4.2. Estrutura Rigorosa do PDF da P2 (Conforme Requisitos Oficiais)
+
+O relatório deve seguir estritamente as 6 seções obrigatórias especificadas:
+
+```
+P2_ISW055_Gabriel_Assis.pdf
+├── 1. Capa e Identificação (Aluno, Disciplina, Repositório, Subdomínio)
+├── 2. Sumário Executivo e Metodologia
+├── 3. Arquitetura do SaaS no Ar (Oito Subtítulos Obrigatórios)
+│   ├── 3.1. Componentes e Microsserviços (Diagrama C4 Container)
+│   ├── 3.2. Onde Roda (VM, Stack Portainer, Containers, Limites de Recursos, Variáveis sem Segredos)
+│   ├── 3.3. Fluxo de uma Requisição (Browser -> Nginx -> Backend -> Auth -> MariaDB -> Redis)
+│   ├── 3.4. Fluxo de Assinatura (Checkout -> Webhook Stripe -> Banco -> Limite Liberado -> Portal)
+│   ├── 3.5. Modelo de Dados do Domínio (Diagrama ER: usuarios, veiculos, caronas, reservas, assinaturas)
+│   ├── 3.6. Segurança (RBAC: passageiro/motorista/admin, Anti-IDOR, Isolamento Multi-tenant, Segredos)
+│   ├── 3.7. Observabilidade e Extras (Swagger UI, Redis Streams, Logs de Auditoria)
+│   └── 3.8. Camadas IaaS, PaaS e SaaS do Projeto (Classificação real dos recursos)
+├── 4. Quadro Consolidado de Entregas (Atividades 7 a 11 com datas planejadas vs realizadas)
+├── 5. Fichas Individuais das Atividades 7 a 11 (Descrição, Links e Evidências com Hash/Data/Hora)
+│   ├── Ficha Atividade 07: Checkout Stripe com Limite no Plano Free
+│   ├── Ficha Atividade 08: Engenharia Reversa e Classificação IaaS/PaaS/SaaS
+│   ├── Ficha Atividade 09: Fork e Plano de Negócio (UniRide SaaS + Lean Canvas)
+│   ├── Ficha Atividade 10: Domínio UniRide no Ar (CRUD Caronas, RBAC, Landing Page, Redis)
+│   └── Ficha Atividade 11: SaaS Completo (Stripe Subscriptions, Webhooks, Portal, MRR Admin)
+└── 6. Declaração de Autenticidade e Conclusão
+```
+
+---
+
+### 4.3. Projeto Passo a Passo de Execução da P2
+
+#### Etapa 4.1: Elaboração do Documento Typst (`docs/P2_ISW055_Gabriel_Assis.typ`)
+1. Reutilizar o motor visual padronizado de P1 (tipografia limpa, tabelas zebradas, caixas de alerta, numeração de páginas).
+2. Incorporar os diagramas arquiteturais em Mermaid / imagens vetoriais exportadas:
+   - Diagrama de Microsserviços e Rede Interna Docker.
+   - Diagrama de Sequência do Ciclo de Vida da Assinatura Stripe e Webhooks.
+   - Diagrama Entidade-Relacionamento (ERD) das tabelas MariaDB.
+
+#### Etapa 4.2: Tabela Consolidada de Entregas (Quadro da Seção 4)
+
+| Atividade | Descrição Sintética | Data Planejada | Data Realizada | Situação | Commit Hash & Link |
+|---|---|:---:|:---:|:---:|:---:|
+| **Ativ. 07** | Plano Premium Stripe Checkout e Limite Free | 25/09/2026 | 19/10/2026 20:37 | Entregue | `59f4155` |
+| **Ativ. 08** | Engenharia Reversa e Matriz IaaS/PaaS/SaaS | 02/10/2026 | 19/10/2026 20:54 | Entregue | `22af01e` / `89f32ef` |
+| **Ativ. 09** | Fork, Lean Canvas e Backlog UniRide | 23/10/2026 | 20/10/2026 20:19 | Entregue (Antecipado) | `fb3abaa` |
+| **Ativ. 10** | Domínio no Ar: Caronas, 3 Papéis e Redis | 06/11/2026 | 22/10/2026 13:38 | Entregue (Antecipado) | `a7b62c4` |
+| **Ativ. 11** | SaaS Completo Stripe, Portal, Limites e MRR | 13/11/2026 | 22/10/2026 13:51 | Entregue (Antecipado) | `b939889` |
+
+#### Etapa 4.3: Compilação e Geração do PDF
+1. Criar pasta `docs/` e salvar o arquivo `P2_ISW055_Gabriel_Assis.typ`.
+2. Compilar com Typst:
+   ```bash
+   typst compile docs/P2_ISW055_Gabriel_Assis.typ docs/P2_ISW055_Gabriel_Assis.pdf
+   ```
+
+#### Etapa 4.4: Publicação e Evidência Final da P2
+1. Fazer o commit do PDF em `docs/P2_ISW055_Gabriel_Assis.pdf`.
+2. Atualizar o `README.md` com o link direto para o PDF da P2.
+3. Abrir a issue no GitHub intitulada `Entrega — P2` mencionando `@siriani`.

@@ -1,7 +1,8 @@
 # Backlog de Entregas — UniRide (Trilha P2: Atividades 10 e 11)
 
-> Repositório: [github.com/Gabriel-Assis-22/UniRide_SaaS](https://github.com/Gabriel-Assis-22/UniRide_SaaS)  
-> Professor: [@siriani](https://github.com/siriani)
+> Repositório: [github.com/Gabriel-Assis-22/Atividade_03_Claude](https://github.com/Gabriel-Assis-22/Atividade_03_Claude)  
+> Professor: [@siriani](https://github.com/siriani)  
+> 📄 **Relatório Consolidado P2:** [docs/P2_ISW055_Gabriel_Assis.pdf](docs/P2_ISW055_Gabriel_Assis.pdf)
 
 Este documento reúne as **issues de engenharia** especificadas para o roteiro de evolução do produto nas Atividades 10 e 11, conforme exigido no item 4 da Atividade 9.
 

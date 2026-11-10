@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 140" width="940" height="140">
+  <rect x="0" y="0" width="940" height="140" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <rect x="0" y="0" width="940" height="32" rx="8" fill="#1e293b"/>
+  <rect x="0" y="24" width="940" height="8" fill="#1e293b"/>
+  <circle cx="18" cy="16" r="5.5" fill="#ef4444"/>
+  <circle cx="36" cy="16" r="5.5" fill="#f59e0b"/>
+  <circle cx="54" cy="16" r="5.5" fill="#22c55e"/>
+  <text x="76" y="20" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" fill="#cbd5e1">Terminal Git — Verificação de Hash, Repositório e Data/Hora (Atividade 7)</text>
+  <text x="18" y="60" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="bold" fill="#7dd3fc">$ git remote get-url origin</text>
+  <text x="18" y="80" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="normal" fill="#e2e8f0">https://github.com/Gabriel-Assis-22/Atividade_02_Claude.git</text>
+  <text x="18" y="100" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="bold" fill="#7dd3fc">$ git log -1 59f4155 --date=format:&quot;%d/%m/%Y %H:%M (%z)&quot; --format=&quot;%H | %ad | %s&quot;</text>
+  <text x="18" y="120" font-family="Consolas, 'Courier New', monospace" font-size="12" font-weight="normal" fill="#fde047">59f4155b39f53bc7b8ade40b791db3016f4fa811 | 19/10/2026 20:37 (-0300) | feat(stripe): implementa plano premium com checkout e webhook</text>
+</svg>
